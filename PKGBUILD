@@ -36,7 +36,8 @@ package() {
   tar xvzf ${pkgname}-${pkgver}.tar.gz -C .
   cp -r usr ${pkgdir}
 # Nos dirigimos a la carpeta dist donde esta la aplicacion
-  cd /dist
+
+  cd /gnu-pytronic-linux-installer/dist
   
 
   cd "$pkgdir"
