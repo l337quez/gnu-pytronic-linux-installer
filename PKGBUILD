@@ -8,55 +8,52 @@ arch=('i686' 'x86_64')
 url="https://github.com/l337quez/GNU-Pytronic"
 license=('GPL3')
 source=("git+https://github.com/l337quez/gnu-pytronic-linux-installer.git")
-md5sums=('6783e657af0ff7c0c3a6c482c50db2a2')
+md5sums=('SKIP')
 makedepends=('git')
 depends=('python3')
 
 
 
 
-
 package() {
-#    bsdtar -O -xf "slack-desktop-${pkgver}"*.deb data.tar.xz | bsdtar -C "${pkgdir}" -xJf -
 
-    # Fix hardcoded icon path in .desktop file
-#    patch -d "${pkgdir}" -p1 <"${pkgname}".patch
+# Nos vamos al directorio de descarga del source
+  cd "${srcdir}/gnu-pytronic-linux-installer"
 
-    # Permission fix
-#    find "${pkgdir}" -type d -exec chmod 755 {} +
+   #Descomprimimos el archivo
+  tar -xvzf ${pkgname}-${pkgver}.tar.gz -C .
+ # cp -r usr ${pkgdir}
+  echo ${pkgdir}
 
-    # Remove all unnecessary stuff
-#    rm -rf "${pkgdir}/etc"
-#    rm -rf "${pkgdir}/usr/share/lintian"
-#    rm -rf "${pkgdir}/usr/share/doc"
 
-#nos vamos al directorio de descarga del source
-  cd "${srcdir}/"
- #Descomprimimos el archivo
-  tar xvzf ${pkgname}-${pkgver}.tar.gz -C .
-  cp -r usr ${pkgdir}
 # Nos dirigimos a la carpeta dist donde esta la aplicacion
 
-  cd /gnu-pytronic-linux-installer/dist
-  
-
   cd "$pkgdir"
-  install -dm 755 "$pkgdir/usr/bin/"
+
+# Creamos los directorios correspondientes  
+  install -dm 755 "$pkgdir/usr/share/"
   install -dm 755 "$pkgdir/usr/share/applications/"
   install -dm 755 "$pkgdir/usr/share/pixmaps/"
- 
-  install -m755 "$srcdir/gnu-pytronic/main" "$pkgdir/usr/bin/"
-  install -m644 "$srcdir/gnu-pytronic/Sources/pytronics.png" "$pkgdir/usr/share/pixmaps/"
+  install -dm 755 "$pkgdir/usr/share/gnu-pytronic"
+
+  
+# Copiamos los archivos del binario  
+  cp -r "$srcdir/gnu-pytronic-linux-installer/build" "$pkgdir/usr/share/gnu-pytronic/build"
+  cp -r "$srcdir/gnu-pytronic-linux-installer/dist" "$pkgdir/usr/share/gnu-pytronic/dist"  
+  #cp -r "$srcdir/gnu-pytronic-linux-installer/dist/pytronics.png" "$pkgdir/usr/share/dist"
+  
+  install -m755 "$srcdir/gnu-pytronic-linux-installer/dist/gnu-pytronic" "$pkgdir/usr/share/gnu-pytronic/dist/gnu-pytronic"
+  install -m644 "$srcdir/gnu-pytronic-linux-installer/dist/pytronics.png" "$pkgdir/usr/share/pixmaps/"
 
 
 
 #Creamos el acceso directo
 cat > $pkgdir/usr/share/applications/$pkgname.desktop << EOF
 [Desktop Entry]
-Version=0.002
-Name=GNU Pytronic
+Version=0.1
+Name=gnu-pytronic
 Comment=pytronic is a program developed in python 3. Basically it is a basic tool for the calculation of analog components such as resistors, capacitors and inductors, also transformers.
-Exec=python main.py
+Exec=/usr/share/gnu-pytronic/dist/gnu-pytronic
 Icon=/usr/share/pixmaps/pytronics.png
 Terminal=false
 Type=Application
