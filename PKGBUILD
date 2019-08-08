@@ -12,22 +12,14 @@ md5sums=('SKIP')
 makedepends=('git')
 depends=('python3')
 
-
-
-
 package() {
-
 # Nos vamos al directorio de descarga del source
   cd "${srcdir}/gnu-pytronic-linux-installer"
 
-   #Descomprimimos el archivo
+# Descomprimimos el archivo
   tar -xvzf ${pkgname}-${pkgver}.tar.gz -C .
- # cp -r usr ${pkgdir}
-  echo ${pkgdir}
 
-
-# Nos dirigimos a la carpeta dist donde esta la aplicacion
-
+# Nos dirigimos al directorio del paquete
   cd "$pkgdir"
 
 # Creamos los directorios correspondientes  
@@ -37,8 +29,6 @@ package() {
   install -dm 755 "$pkgdir/usr/share/pixmaps/"
   install -dm 755 "$pkgdir/usr/share/gnu-pytronic"
 
-# Programa
-  install -Dm755 "$srcdir/gnu-pytronic-linux-installer/dist/gnu-pytronic.desktop" "$pkgdir/usr/bin/gnu-pytronic.desktop"
   
 # Copiamos los archivos del binario  
   cp -r "$srcdir/gnu-pytronic-linux-installer/build" "$pkgdir/usr/share/gnu-pytronic/build"
@@ -47,12 +37,12 @@ package() {
   
   install -m755 "$srcdir/gnu-pytronic-linux-installer/dist/main" "$pkgdir/usr/share/gnu-pytronic/dist/main"
   install -m644 "$srcdir/gnu-pytronic-linux-installer/dist/pytronics.png" "$pkgdir/usr/share/pixmaps/"
+  install -Dm755 "$srcdir/gnu-pytronic-linux-installer/dist/gnu-pytronic.desktop" "$pkgdir/usr/share/applications/gnu-pytronic.desktop"
 
-
-
-
-
-
-
+# Enlace simbolico y lo forzamos
+  ln -sf "$pkgdir/usr/share/gnu-pytronic/dist/main" "$pkgdir/usr/bin/main"  
+  ln -sf "$pkgdir/usr/share/gnu-pytronic/dist/Sources" "$pkgdir/usr/bin/Sources"  
+  ln -sf "$srcdir/gnu-pytronic-linux-installer/dist/pytronics.png" "$pkgdir/usr/bin/pytronics.png"  
+    
 }
 
