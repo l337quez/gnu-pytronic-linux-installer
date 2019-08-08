@@ -31,34 +31,28 @@ package() {
   cd "$pkgdir"
 
 # Creamos los directorios correspondientes  
+  install -dm 755 "$pkgdir/usr/bin"
   install -dm 755 "$pkgdir/usr/share/"
   install -dm 755 "$pkgdir/usr/share/applications/"
   install -dm 755 "$pkgdir/usr/share/pixmaps/"
   install -dm 755 "$pkgdir/usr/share/gnu-pytronic"
 
+# Programa
+  install -Dm755 "$srcdir/gnu-pytronic-linux-installer/dist/gnu-pytronic.desktop" "$pkgdir/usr/bin/gnu-pytronic.desktop"
   
 # Copiamos los archivos del binario  
   cp -r "$srcdir/gnu-pytronic-linux-installer/build" "$pkgdir/usr/share/gnu-pytronic/build"
   cp -r "$srcdir/gnu-pytronic-linux-installer/dist" "$pkgdir/usr/share/gnu-pytronic/dist"  
   #cp -r "$srcdir/gnu-pytronic-linux-installer/dist/pytronics.png" "$pkgdir/usr/share/dist"
   
-  install -m755 "$srcdir/gnu-pytronic-linux-installer/dist/gnu-pytronic" "$pkgdir/usr/share/gnu-pytronic/dist/gnu-pytronic"
+  install -m755 "$srcdir/gnu-pytronic-linux-installer/dist/main" "$pkgdir/usr/share/gnu-pytronic/dist/main"
   install -m644 "$srcdir/gnu-pytronic-linux-installer/dist/pytronics.png" "$pkgdir/usr/share/pixmaps/"
 
 
 
-#Creamos el acceso directo
-cat > $pkgdir/usr/share/applications/$pkgname.desktop << EOF
-[Desktop Entry]
-Version=0.1
-Name=gnu-pytronic
-Comment=pytronic is a program developed in python 3. Basically it is a basic tool for the calculation of analog components such as resistors, capacitors and inductors, also transformers.
-Exec=/usr/share/gnu-pytronic/dist/gnu-pytronic
-Icon=/usr/share/pixmaps/pytronics.png
-Terminal=false
-Type=Application
-StartupNotify=true
-Categories=Electronics;
-EOF
+
+
+
 
 }
+
