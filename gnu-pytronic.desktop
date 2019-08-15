@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=0.1
+Type=Application
+Name=GnuPytronic
+Comment="Tool Electronic calculation of analog components"
+Terminal=false
+Icon=/usr/share/pixmaps/pytronics.png
+Exec=/usr/share/gnu-pytronic/dist/main 
+Categories=Electronics;
+Name[es_VE]=GnuPytronic
